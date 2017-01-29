@@ -1,23 +1,44 @@
 import requests
 import logging
 import sys
+import scrapper_form
 import csv
 
 __author__ = "José Vicente"
 __copyright__ = "Copyright (c) 2017 José Vicente"
 __credits__ = ["José Vicente"]
 __license__ = "MIT"
-__version__ = "2.0.0"
+__version__ = "3.2.0"
 
 ''' 
 The purpose of this module is to generate an adjacency list from the metro system serving the city of Madrid, capital of Spain. 
 https://en.wikipedia.org/wiki/Madrid_Metro
 
-If you run this script, it will save all metro stations in a csv file with ';' as a separator.
+If you run this script, it will save all metro stations in a csv file with ',' as a separator.
 '''
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
+'''
+This methods gives information about a neighbour station
+'''
+def _collect_neighbour_info(station, neighbour_station, browser):
+    logging.info('Retrieving travel time between %s and %s' % (station['name'], neighbour_station['name']))
+
+    time = scrapper_form.get_travel_time_between_stations(station['name'], neighbour_station['name'], browser)
+
+    logging.info('Travel time retrieved!')
+
+    return {'codStop': neighbour_station['codStop'], 
+            'name': neighbour_station['name'], 
+            'line': value['shortDescription'], 
+            'colorLine': value['colorLine'],
+            'time': 'NA' if time == -1 else str(time)}    
+
+
+'''
+Returns a dictionary with Metro lines info
+'''
 def get_lines():
     metro_lines_response = requests.get('http://www.crtm.es/widgets/api/GetLines.php?mode=4')
 
@@ -41,6 +62,9 @@ The adjacency list is return as a dictionary:
 def generate_stations_adjacency_list(lines):
     stations_adjacency_list = {}
 
+    logging.info('A Web Browser window will open. Don\'t be scared! It will be closed automatically')
+    browser = scrapper_form.get_browser()
+
     for key, value in lines.items():
         codLine = key
 
@@ -60,27 +84,30 @@ def generate_stations_adjacency_list(lines):
                 stations_adjacency_list[station['name']] = []
 
             if i > 0:
-                prev_station = {'codStop': stations_in_line[i-1]['codStop'], 
-                                'name': stations_in_line[i-1]['name'], 
-                                'line': value['shortDescription'], 
-                                'colorLine': value['colorLine']}
+                prev_station = stations_in_line[i-1]
 
-                if prev_station['name'] not in stations_adjacency_list[station['name']]:
-                    stations_adjacency_list[station['name']].append(prev_station)    
+                _collect_neighbour_info(station, prev_station, browser)
+
+                if prev_station_obj['name'] not in stations_adjacency_list[station['name']]:
+                    stations_adjacency_list[station['name']].append(prev_station_obj)    
 
             if i < len(stations_in_line) - 1:
-                next_station = {'codStop': stations_in_line[i+1]['codStop'], 
-                                'name': stations_in_line[i+1]['name'], 
-                                'line': value['shortDescription'], 
-                                'colorLine': value['colorLine']}
+                next_station = stations_in_line[i+1]
 
-                if next_station['name'] not in stations_adjacency_list[station['name']]:
-                    stations_adjacency_list[station['name']].append(next_station) 
+                _collect_neighbour_info(station, next_station, browser)
+
+                if next_station_obj['name'] not in stations_adjacency_list[station['name']]:
+                    stations_adjacency_list[station['name']].append(next_station_obj) 
+
+    scrapper_form.close_browser(browser)
 
     return stations_adjacency_list
 
+''' 
+It stores every pair of stations and its info in a csv file
+'''
 def save_adjacency_list_as_csv(adjacency_list, separator=',', output_csv_path='metro.csv'):
-    header = ['v1', 'v2', 'edge_name', 'edge_color']
+    header = ['v1', 'v2', 'edge_name', 'edge_color', 'travel_seconds']
 
     with open(output_csv_path, 'w+') as csv_file:
         writer = csv.DictWriter(csv_file, dialect='excel', lineterminator='\n', fieldnames=header)
@@ -95,7 +122,8 @@ def save_adjacency_list_as_csv(adjacency_list, separator=',', output_csv_path='m
                     header[0]: k,
                     header[1]: node['name'],
                     header[2]: node['line'],
-                    header[3]: node['colorLine']
+                    header[3]: node['colorLine'],
+                    header[4]: node['time']
                 }
 
                 writer.writerow(row)
@@ -106,7 +134,7 @@ if __name__ == '__main__':
 
     metro_response = metro_lines_response.json()
 
-    lines = _get_lines()
+    lines = get_lines()
 
     stations_adjacency_list = generate_stations_adjacency_list(lines)
 
