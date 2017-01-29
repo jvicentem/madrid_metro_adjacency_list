@@ -1,7 +1,6 @@
 import requests
 import logging
 import sys
-import scrapper_form
 import csv
 
 __author__ = "José Vicente"
