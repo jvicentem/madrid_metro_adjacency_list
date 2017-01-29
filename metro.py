@@ -22,7 +22,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 '''
 This methods gives information about a neighbour station
 '''
-def _collect_neighbour_info(station, neighbour_station, browser):
+def _collect_neighbour_info(station, neighbour_station, line_info, browser):
     logging.info('Retrieving travel time between %s and %s' % (station['name'], neighbour_station['name']))
 
     time = scrapper_form.get_travel_time_between_stations(station['name'], neighbour_station['name'], browser)
@@ -31,8 +31,8 @@ def _collect_neighbour_info(station, neighbour_station, browser):
 
     return {'codStop': neighbour_station['codStop'], 
             'name': neighbour_station['name'], 
-            'line': value['shortDescription'], 
-            'colorLine': value['colorLine'],
+            'line': line_info['shortDescription'], 
+            'colorLine': line_info['colorLine'],
             'time': 'NA' if time == -1 else str(time)}    
 
 
@@ -86,7 +86,7 @@ def generate_stations_adjacency_list(lines):
             if i > 0:
                 prev_station = stations_in_line[i-1]
 
-                _collect_neighbour_info(station, prev_station, browser)
+                prev_station_obj = _collect_neighbour_info(station, prev_station, value, browser)
 
                 if prev_station_obj['name'] not in stations_adjacency_list[station['name']]:
                     stations_adjacency_list[station['name']].append(prev_station_obj)    
@@ -94,7 +94,7 @@ def generate_stations_adjacency_list(lines):
             if i < len(stations_in_line) - 1:
                 next_station = stations_in_line[i+1]
 
-                _collect_neighbour_info(station, next_station, browser)
+                next_station_obj = _collect_neighbour_info(station, next_station, value, browser)
 
                 if next_station_obj['name'] not in stations_adjacency_list[station['name']]:
                     stations_adjacency_list[station['name']].append(next_station_obj) 
