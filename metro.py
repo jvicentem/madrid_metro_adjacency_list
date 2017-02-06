@@ -8,7 +8,7 @@ __author__ = "José Vicente"
 __copyright__ = "Copyright (c) 2017 José Vicente"
 __credits__ = ["José Vicente"]
 __license__ = "MIT"
-__version__ = "3.2.0"
+__version__ = "3.2.1"
 
 ''' 
 The purpose of this module is to generate an adjacency list from the metro system serving the city of Madrid, capital of Spain. 
