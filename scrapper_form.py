@@ -36,12 +36,17 @@ Why do you clean all cookies every time this function is called?
 Read the previous question answer.
 
 
-Why do you the date is 2017/01/30 at 12:00?
-Okay, this is very important. If you take a look at the calendary, January 30 falls on Monday, that is
+Why do you the date is 2016/12/14 at 12:00?
+Okay, this is very important. If you take a look at the calendary, December 14 falls on Wednesday, that is
 a weekday. The metro is slower during the weekend. However, the metro is faster on the first hours of the day and 
 is slower at the end of the day.
 
-In order to get normal times (we don't want fast ones nor slow ones) the date is set on a Monday at 12:00 PM.
+In order to get normal times (we don't want fast ones nor slow ones) the date is set on a Wednesday at 12:00 PM.
+
+
+Why 2016?
+The Line 8 was closed on January 2017 due to renovation works. If we change the date to a date before the closure,
+we're still able to get travel times between those stations.
 '''
 def get_travel_time_between_stations(origin_name, destination_name, browser):
     browser.delete_all_cookies()
@@ -65,7 +70,7 @@ def get_travel_time_between_stations(origin_name, destination_name, browser):
 
         date = browser.find_element_by_name('fechBuscar')
         date.clear()
-        date.send_keys('2017/01/30')
+        date.send_keys('2016/12/14')
 
         for option in browser.find_element_by_name('cmbHora').find_elements_by_tag_name('option'):
             if option.get_attribute('value') == '12':
