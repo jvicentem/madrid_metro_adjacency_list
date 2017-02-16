@@ -5,7 +5,7 @@ Version with line colors and names plus travel time between stations: https://gi
 
 Simple version (only vertices): https://github.com/jvicentem/madrid_metro_adjacency_list/releases/tag/v1.0.0
 
-Gephi's nodes and edges csv files:  https://github.com/jvicentem/madrid_metro_adjacency_list/releases/tag/v3.2.3 -> The ids of the stations are real CRTM station ids. Weight = 1 / travel_seconds
+Gephi's nodes and edges csv files: Ids are real CRTM station ids. Weight = 1 / travel_seconds
 
 There's a Gephi's project file too. I strongly recommend to install "Give Color To Edges" plugin so you can paint the edges with the color of each Metro line. 
 
