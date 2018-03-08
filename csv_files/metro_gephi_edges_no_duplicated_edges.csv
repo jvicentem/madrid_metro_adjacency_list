@@ -1,3 +1,4 @@
+Source,Target,Type,Weight,edge_name,edge_color,travel_seconds
 39,50,Undirected,0.004048582995951417,2,#ED1C24,247
 185,186,Undirected,0.001876172607879925,9,#A60084,533
 210,205,Undirected,0.0031545741324921135,12,#A49800,317
