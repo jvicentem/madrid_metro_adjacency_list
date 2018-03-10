@@ -130,15 +130,8 @@ def save_adjacency_list_as_csv(adjacency_list, separator=',', output_csv_path='m
 
 
 if __name__ == '__main__':
-    metro_lines_response = requests.get('http://www.crtm.es/widgets/api/GetLines.php?mode=4')
-
-    metro_response = metro_lines_response.json()
-
     lines = get_lines()
 
     stations_adjacency_list = generate_stations_adjacency_list(lines)
 
     save_adjacency_list_as_csv(stations_adjacency_list)
-
-
-
