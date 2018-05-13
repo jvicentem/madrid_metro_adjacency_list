@@ -17,6 +17,6 @@ The size of vertix: the higher its degree is, the bigger the vertix is.
 According to the size of edges: higher weight (faster time between two stations) equals thicker edges.
 About the color of each vertix: the higher its closeness centrality value is, the darker it is.
 
-![alt text](https://github.com/jvicentem/madrid_metro_adjacency_list/raw/master/with-coordinates.png)
+![Madrid Metro Viz](https://github.com/jvicentem/madrid_metro_adjacency_list/raw/master/analysis/with-coordinates.png)
 
 
