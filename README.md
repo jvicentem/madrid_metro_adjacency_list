@@ -14,7 +14,9 @@ I'm currently working on a graph analysis of Madrid Metro network so checkout br
 There's a Gephi's project file too. I strongly recommend to install "Give Color To Edges" plugin so you can paint the edges with the color of each Metro line. 
 
 The size of vertix: the higher its degree is, the bigger the vertix is.
-According to the size of edges: higher weight (faster time between two stations) equals thicker edges.
+
+According to the size of edges: higher weight (it takes less time to travel between two stations) -> thicker edges.
+
 About the color of each vertix: the higher its closeness centrality value is, the darker it is.
 
 ![Madrid Metro Viz](https://github.com/jvicentem/madrid_metro_adjacency_list/raw/master/analysis/with-coordinates.png)
