@@ -10,8 +10,8 @@ Simple version (only vertices): https://github.com/jvicentem/madrid_metro_adjace
 Gephi's nodes and edges csv files: Ids are real CRTM station ids. Weight = 1 / travel_seconds
 
 
-I'm currently working on a graph analysis of Madrid Metro network so checkout branch "new-analysis" and visit the Jupyter Notebook on folder "analysis". 
-There's a Gephi's project file too. I strongly recommend to install "Give Color To Edges" plugin so you can paint the edges with the color of each Metro line. 
+I'm currently working on a graph analysis of Madrid Metro network so please visit this link to check my work out https://github.com/jvicentem/madrid_metro_adjacency_list/blob/master/analysis/madrid-metro-graph-analysis.ipynb . 
+There's a Gephi's project file too (analysis folder). I strongly recommend to install "Give Color To Edges" plugin so you can paint the edges with the color of each Metro line. 
 
 The size of vertix: the higher its degree is, the bigger the vertix is.
 
